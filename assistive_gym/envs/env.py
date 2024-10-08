@@ -23,15 +23,15 @@ class AssistiveEnv(gym.Env):
         self.frame_skip = frame_skip
         self.gravity = gravity
         self.id = None
-        self.gui = False
+        self.gui = render
         self.gpu = False
         self.view_matrix = None
         self.seed(seed)
         if render:
-            self.render()
+            self.id = p.connect(p.GUI, options='--background_color_red=0.8 --background_color_green=0.9 --background_color_blue=1.0')
         else:
             self.id = p.connect(p.DIRECT)
-            self.util = Util(self.id, self.np_random)
+        self.util = Util(self.id, self.np_random)
 
         self.directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'assets')
         self.human_creation = HumanCreation(self.id, np_random=self.np_random, cloth=('dressing' in task))
@@ -317,19 +317,19 @@ class AssistiveEnv(gym.Env):
     def update_targets(self):
         pass
 
-    def render(self, mode='human'):
-        if not self.gui:
-            self.gui = True
-            if self.id is not None:
-                self.disconnect()
-            try:
-                self.width = get_monitors()[0].width
-                self.height = get_monitors()[0].height
-            except Exception as e:
-                self.width = 1920
-                self.height = 1080
-            self.id = p.connect(p.GUI, options='--background_color_red=0.8 --background_color_green=0.9 --background_color_blue=1.0 --width=%d --height=%d' % (self.width, self.height))
-            self.util = Util(self.id, self.np_random)
+    # def render(self, mode='human'):
+    #     if not self.gui:
+    #         self.gui = True
+    #         if self.id is not None:
+    #             self.disconnect()
+    #         try:
+    #             self.width = get_monitors()[0].width
+    #             self.height = get_monitors()[0].height
+    #         except Exception as e:
+    #             self.width = 1920
+    #             self.height = 1080
+    #         self.id = p.connect(p.GUI, options='--background_color_red=0.8 --background_color_green=0.9 --background_color_blue=1.0 --width=%d --height=%d' % (self.width, self.height))
+    #         self.util = Util(self.id, self.np_random)
 
     def get_euler(self, quaternion):
         return np.array(p.getEulerFromQuaternion(np.array(quaternion), physicsClientId=self.id))

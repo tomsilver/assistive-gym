@@ -1,10 +1,9 @@
 import gym, assistive_gym
 
-env = gym.make('DrinkingJaco-v1')
+env = gym.make('DrinkingJaco-v1', render=True)
 observation = env.reset()
-# env.render()
 
 while True:
-    # env.render()
     action = env.action_space.sample() # Get a random action
+    print(action)
     observation, reward, terminated, truncated, info = env.step(action)

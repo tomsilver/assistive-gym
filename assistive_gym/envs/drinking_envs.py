@@ -23,8 +23,8 @@ class DrinkingSawyerEnv(DrinkingEnv):
         super(DrinkingSawyerEnv, self).__init__(robot=Sawyer(robot_arm), human=Human(human_controllable_joint_indices, controllable=False))
 
 class DrinkingJacoEnv(DrinkingEnv):
-    def __init__(self):
-        super(DrinkingJacoEnv, self).__init__(robot=Jaco(robot_arm), human=Human(human_controllable_joint_indices, controllable=False))
+    def __init__(self, render=False):
+        super(DrinkingJacoEnv, self).__init__(robot=Jaco(robot_arm), human=Human(human_controllable_joint_indices, controllable=False), render=render)
 
 class DrinkingStretchEnv(DrinkingEnv):
     def __init__(self):
