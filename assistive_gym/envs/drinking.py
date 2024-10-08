@@ -36,13 +36,11 @@ class DrinkingEnv(AssistiveEnv):
             print('Task success:', self.task_success, 'Water reward:', reward_water)
 
         info = {'total_force_on_human': self.total_force_on_human, 'task_success': int(self.task_success >= self.total_water_count*self.config('task_success_threshold')), 'action_robot_len': self.action_robot_len, 'action_human_len': self.action_human_len, 'obs_robot_len': self.obs_robot_len, 'obs_human_len': self.obs_human_len}
-        done = self.iteration >= 200
+        truncated = self.iteration >= 200
+        terminated = False
 
-        if not self.human.controllable:
-            return obs, reward, done, info
-        else:
-            # Co-optimization with both human and robot controllable
-            return obs, {'robot': reward, 'human': reward}, {'robot': done, 'human': done, '__all__': done}, {'robot': info, 'human': info}
+        assert not self.human.controllable
+        return obs, reward, terminated, truncated, info
 
     def get_total_force(self):
         robot_force_on_human = np.sum(self.robot.get_contact_points(self.human)[-1])
@@ -179,7 +177,7 @@ class DrinkingEnv(AssistiveEnv):
             p.stepSimulation(physicsClientId=self.id)
 
         self.init_env_variables()
-        return self._get_obs()
+        return self._get_obs(), {}
 
     def generate_target(self):
         # Set target on mouth

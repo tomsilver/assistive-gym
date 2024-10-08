@@ -194,7 +194,7 @@ class Agent:
         # p.changeDynamics(self.body, joint, contactStiffness=stiffness, contactDamping=stiffness, physicsClientId=self.id)
 
     def set_gravity(self, ax=0.0, ay=0.0, az=-9.81):
-        p.setGravity(ax, ay, az, body=self.body, physicsClientId=self.id)
+        p.setGravity(ax, ay, az, physicsClientId=self.id)
 
     def enable_force_torque_sensor(self, joint):
         p.enableJointForceTorqueSensor(self.body, joint, enableSensor=True, physicsClientId=self.id)
@@ -252,8 +252,8 @@ class Agent:
     def ik(self, target_joint, target_pos, target_orient, ik_indices, max_iterations=1000, half_range=False, use_current_as_rest=False, randomize_limits=False):
         if target_orient is not None and len(target_orient) < 4:
             target_orient = self.get_quaternion(target_orient)
-        ik_lower_limits = self.ik_lower_limits if not randomize_limits else self.np_random.uniform(0, self.ik_lower_limits)
-        ik_upper_limits = self.ik_upper_limits if not randomize_limits else self.np_random.uniform(0, self.ik_upper_limits)
+        ik_lower_limits = self.ik_lower_limits #if not randomize_limits else self.np_random.uniform(0, self.ik_lower_limits)
+        ik_upper_limits = self.ik_upper_limits #if not randomize_limits else self.np_random.uniform(0, self.ik_upper_limits)
         ik_joint_ranges = ik_upper_limits - ik_lower_limits
         if half_range:
             ik_joint_ranges /= 2.0

@@ -69,8 +69,7 @@ class Human(Agent):
         self.motor_forces = 1.0
         self.motor_gains = 0.05
 
-    def init(self, human_creation, limits_model, static_human_base, impairment, gender, config, id, np_random, mass=None, radius_scale=1.0, height_scale=1.0):
-        self.limits_model = limits_model
+    def init(self, human_creation, static_human_base, impairment, gender, config, id, np_random, mass=None, radius_scale=1.0, height_scale=1.0):
         self.arm_previous_valid_pose = {True: None, False: None}
         # Choose gender
         if gender not in ['male', 'female']:
@@ -138,16 +137,7 @@ class Human(Agent):
         right = self.j_right_shoulder_x in self.controllable_joint_indices
         indices = [self.j_right_shoulder_x, self.j_right_shoulder_y, self.j_right_shoulder_z, self.j_right_elbow] if right else [self.j_left_shoulder_x, self.j_left_shoulder_y, self.j_left_shoulder_z, self.j_left_elbow]
         tz, tx, ty, qe = self.get_joint_angles(indices)
-        # Transform joint angles to match those from the Matlab data
-        tz2 = (((-1 if right else 1)*tz) + 2*np.pi) % (2*np.pi)
-        tx2 = (tx + 2*np.pi) % (2*np.pi)
-        ty2 = (-1 if right else 1)*ty
-        qe2 = (-qe + 2*np.pi) % (2*np.pi)
-        result = self.limits_model.predict_classes(np.array([[tz2, tx2, ty2, qe2]]))
-        if result == 1:
-            # This is a valid pose for the person
-            self.arm_previous_valid_pose[right] = [tz, tx, ty, qe]
-        elif result == 0 and self.arm_previous_valid_pose[right] is not None:
-            # The person is in an invalid pose. Move joint angles back to the most recent valid pose.
-            self.set_joint_angles(indices, self.arm_previous_valid_pose[right])
+        # NOTE: removed learned tensorflow model here for simplicity. Joint
+        # limits handled externally.
+        self.arm_previous_valid_pose[right] = [tz, tx, ty, qe]
 
