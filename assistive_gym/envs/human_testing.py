@@ -9,8 +9,8 @@ from .agents.human import Human
 
 human_controllable_joint_indices = human.right_arm_joints + human.left_arm_joints
 class HumanTestingEnv(AssistiveEnv):
-    def __init__(self):
-        super(HumanTestingEnv, self).__init__(robot=None, human=Human(human_controllable_joint_indices, controllable=True), task='human_testing', obs_robot_len=0, obs_human_len=0)
+    def __init__(self, render=False):
+        super(HumanTestingEnv, self).__init__(robot=None, human=Human(human_controllable_joint_indices, controllable=True), task='human_testing', obs_robot_len=0, obs_human_len=0, render=render)
 
     def step(self, action):
         self.take_step(action, gains=0.05, forces=1.0)

@@ -371,7 +371,7 @@ class AssistiveEnv(gym.Env):
         sphere_visual = p.createVisualShape(shapeType=p.GEOM_SPHERE, radius=radius, rgbaColor=rgba, physicsClientId=self.id) if visual else -1
         sphere_ids = p.createMultiBody(baseMass=mass, baseCollisionShapeIndex=sphere_collision, baseVisualShapeIndex=sphere_visual, basePosition=[0, 0, 0], useMaximalCoordinates=False, batchPositions=batch_positions, physicsClientId=self.id)
         spheres = []
-        for body in sphere_ids:
+        for body in sphere_ids[::-1]:
             sphere = Agent()
             sphere.init(body, self.id, self.np_random, indices=-1)
             spheres.append(sphere)

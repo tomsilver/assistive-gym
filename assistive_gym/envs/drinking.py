@@ -155,19 +155,19 @@ class DrinkingEnv(AssistiveEnv):
         p.setPhysicsEngineParameter(numSubSteps=4, numSolverIterations=10, physicsClientId=self.id)
 
         # Generate water
-        cup_pos, cup_orient = self.tool.get_base_pos_orient()
-        water_radius = 0.005
-        water_mass = 0.001
-        batch_positions = []
-        for i in range(4):
-            for j in range(4):
-                for k in range(4):
-                    batch_positions.append(np.array([i*2*water_radius-0.02, j*2*water_radius-0.02, k*2*water_radius+0.075]) + cup_pos)
-        self.waters = self.create_spheres(radius=water_radius, mass=water_mass, batch_positions=batch_positions, visual=False, collision=True)
-        for w in self.waters:
-            p.changeVisualShape(w.body, -1, rgbaColor=[0.25, 0.5, 1, 1], physicsClientId=self.id)
-        self.total_water_count = len(self.waters)
-        self.waters_active = [w for w in self.waters]
+        # cup_pos, cup_orient = self.tool.get_base_pos_orient()
+        # water_radius = 0.005
+        # water_mass = 0.001
+        # batch_positions = []
+        # for i in range(4):
+        #     for j in range(4):
+        #         for k in range(4):
+        #             batch_positions.append(np.array([i*2*water_radius-0.02, j*2*water_radius-0.02, k*2*water_radius+0.075]) + cup_pos)
+        # self.waters = self.create_spheres(radius=water_radius, mass=water_mass, batch_positions=batch_positions, visual=False, collision=True)
+        # for w in self.waters:
+        #     p.changeVisualShape(w.body, -1, rgbaColor=[0.25, 0.5, 1, 1], physicsClientId=self.id)
+        # self.total_water_count = len(self.waters)
+        # self.waters_active = [w for w in self.waters]
 
         # Enable rendering
         p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1, physicsClientId=self.id)
