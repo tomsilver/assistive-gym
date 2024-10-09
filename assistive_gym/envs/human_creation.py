@@ -294,8 +294,8 @@ class HumanCreation:
             linkJointTypes=linkJointTypes,
             linkJointAxis=linkJointAxis,
             # These kwargs don't exist in the current version of PyBullet.
-            # linkLowerLimits=linkLowerLimits,
-            # linkUpperLimits=linkUpperLimits,
+            linkLowerLimits=linkLowerLimits,
+            linkUpperLimits=linkUpperLimits,
             useMaximalCoordinates=False,
             flags=p.URDF_USE_SELF_COLLISION,
             physicsClientId=self.id)

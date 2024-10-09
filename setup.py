@@ -19,7 +19,7 @@ setup(name='assistive-gym',
     python_requires='>=3',
     install_requires=[
         'numpy>=1.23.5,<2.0',
-        'pybullet==3.2.6',
+        'pybullet@git+https://github.com/tomsilver/bullet3.git@link-limit-extension',
         'gym>=0.2.3',
         'h5py',
         'smplx',
